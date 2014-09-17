@@ -21,3 +21,6 @@ available.
 ```
 ./androidlockcracker.py --help
 ```
+
+## More info
+View more info at Silensec's Website [here](http://silensec.com/downloads-menu/androidlockcracker)
