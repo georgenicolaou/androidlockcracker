@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 AndroidLockCracker - Cracking and generating Android lock hashes
-Copyright (C) 2014  George Nicolaou (george({at})silensec({dot})com)
+Copyright (C) 2022   George Nicolaou and Dovine Owuor(george({at})silensec({dot})com)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -180,7 +180,7 @@ def usage():
         {"short": "-g", "long": "--gridsize", "descr": "Grid square size eg: -g 3 (for 3x3)"},
     ]
     print ("%s %s %s" % ( sys.argv[0], "[OPTION(S)]", "TYPE LOCK PASSWORD/HASH [SALT]" ))
-    print ("Author: George Nicolaou, Silensec")
+    print ("Author: George Nicolaou, Silensec and Dovine Owuor")
     print( "TYPE - The type of processing to do:\n\tcrack - For cracking\n\tgenerate - For generating hashes")
     print( "LOCK - The device lock type:\n\tpin - For PIN/Password locks (requires salt)\n\tgesture - For Gesture locks")
     print ("PASSWORD/HASH - The password to generate hash for or the hash to crack password for.\n\t\t(Note: dump gesture hash using `hashdump -C gesture.key`)")
