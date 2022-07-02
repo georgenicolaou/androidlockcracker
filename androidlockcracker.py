@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 AndroidLockCracker - Cracking and generating Android lock hashes
-Copyright (C) 2014  George Nicolaou (george({at})silensec({dot})com)
+Copyright (C) 2022   George Nicolaou (george({at})silensec({dot})com) and Dovine Owuor
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class PasswordGestureGenerate(object):
     
     def generate_self_hash(self):
         if self.gesture == None:
-            print "Bad gesture string"
+            print("Bad gesture string")
             return False
         return self.generate_hash(self.generate_gesture_string(self.gesture))
     
@@ -61,7 +61,7 @@ class PasswordPinGenerate(object):
     
     def set_salt(self, salt=None):
         if salt == None:
-            print "Bad salt"
+            print("Bad salt")
             return False
         self.salt = salt
         return True
@@ -113,7 +113,7 @@ class PasswordPinCracker(object):
         try:
             wordlist = [l.strip() for l in open(wordlist)]
         except:
-            print "Bad wordlist file"
+            print ("Bad wordlist file")
             return False
             
         generator = PasswordPinGenerate()
@@ -179,18 +179,18 @@ def usage():
         {"title": "Gesture Cracking/Generation:"},
         {"short": "-g", "long": "--gridsize", "descr": "Grid square size eg: -g 3 (for 3x3)"},
     ]
-    print "%s %s %s" % ( sys.argv[0], "[OPTION(S)]", "TYPE LOCK PASSWORD/HASH [SALT]" )
-    print "Author: George Nicolaou, Silensec"
-    print "TYPE - The type of processing to do:\n\tcrack - For cracking\n\tgenerate - For generating hashes"
-    print "LOCK - The device lock type:\n\tpin - For PIN/Password locks (requires salt)\n\tgesture - For Gesture locks"
-    print "PASSWORD/HASH - The password to generate hash for or the hash to crack password for.\n\t\t(Note: dump gesture hash using `hashdump -C gesture.key`)"
-    print "SALT - The password salt to generate password with or the salt to crack password with (in decimal)\n"
+    print ("%s %s %s" % ( sys.argv[0], "[OPTION(S)]", "TYPE LOCK PASSWORD/HASH [SALT]" ))
+    print ("Author: George Nicolaou, Silensec and Dovine Owuor")
+    print( "TYPE - The type of processing to do:\n\tcrack - For cracking\n\tgenerate - For generating hashes")
+    print( "LOCK - The device lock type:\n\tpin - For PIN/Password locks (requires salt)\n\tgesture - For Gesture locks")
+    print ("PASSWORD/HASH - The password to generate hash for or the hash to crack password for.\n\t\t(Note: dump gesture hash using `hashdump -C gesture.key`)")
+    print ("SALT - The password salt to generate password with or the salt to crack password with (in decimal)\n")
     for opt in options:
         if "title" in opt:
-            print opt["title"]
+            print( opt["title"])
         else:
-            print "\t%s %s\t%s" % (opt["short"], opt["long"], opt["descr"])
-    print "Note: Default settings include only numeric PIN cracking"
+            print( "\t%s %s\t%s" % (opt["short"], opt["long"], opt["descr"]))
+    print ("Note: Default settings include only numeric PIN cracking")
     sys.exit()
 
 class Options(object):
@@ -213,12 +213,12 @@ def handle_generate(opts):
     if opts.lock == opts.PIN:
         generator = PasswordPinGenerate(opts.passwd, opts.salt)
         phash = generator.generate_self_hash()
-        print "Password Hash: %s\nPassword Salt: %s" % (phash, opts.strsalt)
+        print( "Password Hash: %s\nPassword Salt: %s" % (phash, opts.strsalt))
         sys.exit()
     elif opts.lock == opts.GESTURE:
         gesture = [int(n)-1 for n in opts.passwd.split(",")]
         generator = PasswordGestureGenerate( opts.gridX, opts.gridY, gesture )
-        print "Gesture Hash: %s\nGesture: %s" % (generator.generate_self_hash(), 
+        print ("Gesture Hash: %s\nGesture: %s" % (generator.generate_self_hash()), 
                                                  opts.passwd)
     return
 
@@ -228,13 +228,13 @@ def handle_crack(opts):
             opts.passwd_length_begin = opts.passwd_length
             opts.passwd_length_end = opts.passwd_length
         if opts.salt == None:
-            print "No salt specified"
+            print ("No salt specified")
             return
         cracker = PasswordPinCracker( opts.passwd, opts.salt, 
                                       opts.passwd_length_begin, 
                                       opts.passwd_length_end, opts.numeric, 
                                       opts.alpha, opts.symbols )
-        print "Cracking... (this might take a while)"
+        print ("Cracking... (this might take a while)")
         if opts.wordlist != None:
             start = time.time()
             passwd = cracker.begin_wordlist_crack(opts.wordlist)
@@ -251,16 +251,16 @@ def handle_crack(opts):
                                           opts.passwd_length_begin, 
                                           opts.passwd_length_end )
         
-        print "Cracking... (this might take a while)"
+        print ("Cracking... (this might take a while)")
         start = time.time()
         passwd = cracker.begin_brute_crack()
         took = time.time() - start
         if passwd != False:
             passwd = ','.join([str(x+1) for x in passwd])
     if passwd == False:
-        print "Not found - Processing time: %.4f seconds" % took
+        print ("Not found - Processing time: %.4f seconds" % took)
     else:
-        print "Processing time: %.4f seconds\nPassword: %s" % ( took, passwd )
+        print ("Processing time: %.4f seconds\nPassword: %s" % ( took, passwd ))
     return
 
 def main():
