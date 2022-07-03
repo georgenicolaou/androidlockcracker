@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
 AndroidLockCracker - Cracking and generating Android lock hashes
-Copyright (C) 2022   George Nicolaou and Dovine Owuor(george({at})silensec({dot})com)
 Copyright (C) 2022   George Nicolaou (george({at})silensec({dot})com) and Dovine Owuor
 
 This program is free software: you can redistribute it and/or modify
@@ -321,4 +320,4 @@ def main():
         usage()
         
 if __name__ == "__main__":
-    main()        
+    main()
