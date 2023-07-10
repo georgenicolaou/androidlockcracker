@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 AndroidLockCracker - Cracking and generating Android lock hashes
-Copyright (C) 2022   George Nicolaou (george({at})silensec({dot})com) and Dovine Owuor
+Copyright (C) 2022   George Nicolaou (george({at})silensec({dot})com), Dovine Owuor, CM-CA
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ class PasswordGestureGenerate(object):
         return self.generate_hash(self.generate_gesture_string(self.gesture))
     
     def generate_hash(self, gesture_string):
-        return hashlib.sha1(gesture_string).hexdigest().upper()
-    
+        return hashlib.sha1(gesture_string.encode()).hexdigest().upper() # Encode string before hashing
+
 class PasswordPinGenerate(object):
     def __init__(self, passwd=None, salt=None):
         self.passwd = passwd
@@ -130,7 +130,7 @@ class PasswordPinCracker(object):
         generator = PasswordPinGenerate()
         generator.set_salt(self.salt)
         charlist = self._gen_charlist()
-        for length in xrange(self.plengthbegin, self.plengthend+1):
+        for length in range(self.plengthbegin, self.plengthend+1):
             for passwd in product(charlist, repeat=length):
                 passwd = ''.join(passwd)
                 phash = generator.generate_hash(passwd)
@@ -153,7 +153,7 @@ class PasswordGestureCracker(object):
     def begin_brute_crack(self):
         generator = PasswordGestureGenerate(self.sizeX, self.sizeY)
         gridpoints = self._gen_points()
-        for length in xrange( self.lengthbegin, self.lengthend+1):
+        for length in range( self.lengthbegin, self.lengthend+1):
             #XXX Replace product() with something that doesn't generate 
             #repetitions (eg 1,1,...)
             for passwd in product(gridpoints, repeat=length):
